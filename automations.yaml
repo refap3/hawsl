@@ -1,0 +1,71 @@
+
+#    _____ _______ _____                _                        _   _
+#   / ____|__   __|  __ \              | |                      | | (_)
+#  | (___    | |  | |  | |   __ _ _   _| |_ ___  _ __ ___   __ _| |_ _  ___  _ __
+#   \___ \   | |  | |  | |  / _` | | | | __/ _ \| '_ ` _ \ / _` | __| |/ _ \| '_ \
+#   ____) |  | |  | |__| | | (_| | |_| | || (_) | | | | | | (_| | |_| | (_) | | | |
+#  |_____/   |_|  |_____/   \__,_|\__,_|\__\___/|_| |_| |_|\__,_|\__|_|\___/|_| |_|
+
+
+
+
+- alias: Hijacked Hue Dimmer Automations
+  trigger:
+    platform: state
+    entity_id: sensor.buttonevent
+  action:
+  - service: persistent_notification.create
+    data_template:
+      message: >
+        {% if states.sensor.living_room_remote_status.state == "1" %}
+        'Button 1 pressed'
+        {% elif states.sensor.living_room_remote_status.state == "2" %}
+        'Button 2 pressed'
+        {% elif states.sensor.living_room_remote_status.state == "3" %}
+        'Button 3 pressed'
+        {% elif states.sensor.living_room_remote_status.state == "4" %}
+        'Button 4 pressed'
+        {% else %}
+        none
+        {% endif %}
+
+
+- alias: FULL Hijacked Hue Dimmer Automations
+  trigger:
+    platform: state
+    entity_id: sensor.buttonevent
+  action:
+  - service: persistent_notification.create
+    data_template:
+      message: >
+        {% if states.sensor.full_living_room_remote_status.state == "1001" %}
+        'Button 1001 pressed'
+        {% elif states.sensor.full_living_room_remote_status.state == "2001" %}
+        'Button 2001 pressed'
+        {% elif states.sensor.full_living_room_remote_status.state == "3001" %}
+        'Button 3001 pressed'
+        {% elif states.sensor.full_living_room_remote_status.state == "4001" %}
+        'Button 4001 pressed'
+        {% else %}
+        none 001
+        {% endif %}
+
+
+
+#   _____       _   _                               _                        _   _
+#  |  __ \     | | | |                             | |                      | | (_)
+#  | |__) |   _| |_| |__   ___  _ __     __ _ _   _| |_ ___  _ __ ___   __ _| |_ _  ___  _ __
+#  |  ___/ | | | __| '_ \ / _ \| '_ \   / _` | | | | __/ _ \| '_ ` _ \ / _` | __| |/ _ \| '_ \
+#  | |   | |_| | |_| | | | (_) | | | | | (_| | |_| | || (_) | | | | | | (_| | |_| | (_) | | | |
+#  |_|    \__, |\__|_| |_|\___/|_| |_|  \__,_|\__,_|\__\___/|_| |_| |_|\__,_|\__|_|\___/|_| |_|
+#          __/ |
+#         |___/
+
+- alias: Python Hijacked automation
+  trigger:
+  - entity_id: sensor.dimmerbuttonevent
+    platform: state  
+  - entity_id: sensor.dimmerlastupdated
+    platform: state
+  action:
+  - service: python_script.hue_dimmer

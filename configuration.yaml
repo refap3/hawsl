@@ -1,0 +1,144 @@
+# generate BANNER here: 
+# http://patorjk.com/software/taag
+
+
+#    /$$     /$$       /$$                 /$$   /$$ /$$$$$$$  /$$   /$$ /$$   /$$ /$$$$$$$$ /$$   /$$ /$$
+#   | $$    | $$      |__/                | $$  | $$| $$__  $$| $$  | $$| $$$ | $$|__  $$__/| $$  | $$| $$
+#  /$$$$$$  | $$$$$$$  /$$  /$$$$$$$      | $$  | $$| $$  \ $$| $$  | $$| $$$$| $$   | $$   | $$  | $$| $$
+# |_  $$_/  | $$__  $$| $$ /$$_____/      | $$  | $$| $$$$$$$ | $$  | $$| $$ $$ $$   | $$   | $$  | $$| $$
+#   | $$    | $$  \ $$| $$|  $$$$$$       | $$  | $$| $$__  $$| $$  | $$| $$  $$$$   | $$   | $$  | $$|__/
+#   | $$ /$$| $$  | $$| $$ \____  $$      | $$  | $$| $$  \ $$| $$  | $$| $$\  $$$   | $$   | $$  | $$    
+#   |  $$$$/| $$  | $$| $$ /$$$$$$$/      |  $$$$$$/| $$$$$$$/|  $$$$$$/| $$ \  $$   | $$   |  $$$$$$/ /$$
+#    \___/  |__/  |__/|__/|_______/        \______/ |_______/  \______/ |__/  \__/   |__/    \______/ |__/
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: UBUNTU/Windows Test FARM
+  # Location required to calculate the time the sun rises and sets
+  latitude: 48.193182
+  longitude: 16.360460
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 120
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Europe/Vienna
+  # Customization file
+  customize: !include customize.yaml 
+
+
+
+# change Theme !!
+frontend:
+  themes:
+    happy:
+      primary-color: pink
+    sad:
+      primary-color: blue
+    dark:
+      primary-color: black
+
+
+
+# Enables configuration UI
+config:
+
+updater:
+
+# Discover some devices automatically
+discovery:
+  ignore:
+  - apple_tv
+  - axis
+  - belkin_wemo
+  - bluesound
+  - bose_soundtouch
+  - denonavr
+  - directv
+  - frontier_silicon
+  - google_cast
+  - harmony
+  - ikea_tradfri
+  - logitech_mediaserver
+  - netgear_router
+  - openhome
+  - panasonic_viera
+  - philips_hue
+  - plex_mediaserver
+  - roku
+  - sabnzbd
+  - samsung_printer
+  - samsung_tv
+  - sonos
+  - songpal 
+  - tellstick
+  - wink
+  - yamaha
+  - yeelight
+  - xiaomi_gw  
+
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+logbook:
+
+# Enables a map showing the location of tracked devices
+map:
+sensor:
+# HUE dimmer button and last changed 
+- platform: rest 
+  resource: http://192.168.1.29/api/afuqJ7LmBQWbHTQ0qKtGvuokd3y77SiJNw0BNkMy/sensors/7
+  name: DIMMERbuttonevent
+  value_template: '{{ value_json.state.buttonevent }}' 
+  scan_interval: 1 
+
+- platform: rest 
+  resource: http://192.168.1.29/api/afuqJ7LmBQWbHTQ0qKtGvuokd3y77SiJNw0BNkMy/sensors/7
+  name: DIMMERlastupdated
+  value_template: '{{ value_json.state.lastupdated }}' 
+  scan_interval: 1 
+
+
+# HUE dimmer battery level 
+- platform: rest 
+  resource: http://192.168.1.29/api/afuqJ7LmBQWbHTQ0qKtGvuokd3y77SiJNw0BNkMy/sensors/7
+  name: DIMMERbattery
+  value_template: '{{ value_json.config.battery }}' 
+  scan_interval: 1 
+
+## HUE daylight boolean
+- platform: rest 
+  resource: http://192.168.1.29/api/afuqJ7LmBQWbHTQ0qKtGvuokd3y77SiJNw0BNkMy/sensors/1
+  name: HUEdaylight
+  value_template: '{{ value_json.state.daylight }}' 
+  scan_interval: 1 
+
+## HUE TAP switch 
+- platform: rest 
+  resource: http://192.168.1.29/api/afuqJ7LmBQWbHTQ0qKtGvuokd3y77SiJNw0BNkMy/sensors/22
+  name: TAPbuttonevent
+  value_template: '{{ value_json.state.buttonevent }}' 
+  scan_interval: 1 
+
+
+- platform: template 
+  sensors:  
+   living_room_remote_status: 
+     friendly_name: 'Living room remote' 
+     value_template: '{{states.sensor.DIMMERbuttonevent.state[0]}}'  
+   
+- platform: template 
+  sensors:  
+   full_living_room_remote_status: 
+     friendly_name: 'FULL Living room remote' 
+     value_template: '{{states.sensor.DIMMERbuttonevent.state}}'  
+   
+
+## enable python scripts in folder python_scripts
+python_script:
+
+
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
