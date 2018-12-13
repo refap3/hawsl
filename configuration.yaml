@@ -122,6 +122,11 @@ sensor:
   value_template: '{{ value_json.state.buttonevent }}' 
   scan_interval: 1 
 
+## get EXTERNAL IP 
+- platform: rest
+  resource: http://ip.jsontest.com
+  name: External IP
+  value_template: '{{ value_json.ip }}'
 
 - platform: template 
   sensors:  
@@ -135,6 +140,23 @@ sensor:
      friendly_name: 'FULL Living room remote' 
      value_template: '{{states.sensor.DIMMERbuttonevent.state}}'  
    
+## fetch Multiple values and present as attributes
+- platform: rest
+  name: JSON time
+  json_attributes:
+    - date
+    - milliseconds_since_epoch
+  resource: http://date.jsontest.com/
+  value_template: '{{ value_json.time }}'
+- platform: template
+  sensors:
+    date:
+      friendly_name: 'Date'
+      value_template: '{{ states.sensor.json_time.attributes["date"] }}'
+    milliseconds:
+      friendly_name: 'milliseconds'
+      value_template: '{{ states.sensor.json_time.attributes["milliseconds_since_epoch"] }}'
+
 
 ## enable python scripts in folder python_scripts
 python_script:
