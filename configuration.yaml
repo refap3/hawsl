@@ -12,6 +12,14 @@
 # # # note: Github location is 
 # # # https://github.com/refap3/hawsl
 
+
+# # # how to update Homeassistant: 
+# ===================================
+
+# # # $ python3 -m pip install --upgrade homeassistant  
+
+
+
 homeassistant:
   # Name of the location where Home Assistant is running
   name: UBUNTU/Windows Test FARM
@@ -38,8 +46,6 @@ frontend:
       primary-color: blue
     dark:
       primary-color: black
-
-
 
 # Enables configuration UI
 config:
