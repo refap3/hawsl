@@ -18,7 +18,9 @@
 
 # # # $ python3 -m pip install --upgrade homeassistant  
 
-
+# ALL FILES are now local on C:\ drive and accessed via /mnt/c !!
+# ---------------------------------------------------------------
+# ===============================================================
 
 homeassistant:
   # Name of the location where Home Assistant is running
