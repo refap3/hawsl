@@ -17,3 +17,5 @@ test:
 testsensors:
   name: Test Sensors and Automation on WSL 
   entities:
+    - automation.simulate_presence
+    - light.ficus
