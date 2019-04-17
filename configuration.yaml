@@ -166,6 +166,9 @@ sensor:
       value_template: '{{ states.sensor.json_time.attributes["milliseconds_since_epoch"] }}'
 
 
+# give SUN
+sun:
+
 ## enable python scripts in folder python_scripts
 python_script:
 

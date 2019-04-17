@@ -19,3 +19,5 @@ testsensors:
   entities:
     - automation.simulate_presence
     - light.ficus
+    - sun.sun
+    
