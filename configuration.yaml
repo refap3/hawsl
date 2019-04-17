@@ -169,6 +169,26 @@ sensor:
 # give SUN
 sun:
 
+# device tracker ... 
+
+device_tracker:
+  - platform: ping
+    interval_seconds: 20
+    consider_home: 60
+    hosts:
+      rai_ph: 192.168.1.67
+      lis_ph: 192.168.1.54
+
+
+input_select:
+  presenceenabled:
+    name: Presence detection enabled 
+    options:
+     - true
+     - false
+    initial: true
+    icon: mdi:human-male-female        
+
 ## enable python scripts in folder python_scripts
 python_script:
 

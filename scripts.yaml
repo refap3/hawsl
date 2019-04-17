@@ -1,0 +1,23 @@
+lightspresence:
+  sequence:
+    - service: light.turn_on
+      data_template:
+        entity_id: >
+          group.lightspresence
+#        light.lamp_{{ (range(1, 6) | random) }}
+  # wait some seconds (will be in reality in minutes)
+    - delay: '00:00:{{ (range(2, 10) | random) }}'
+    # - delay: '00:{{ (range(2, 10) | random) }}:00'
+    # - delay: 00:00:05
+  # turn off all devices
+    - service: light.turn_off
+      entity_id: group.lightspresence
+  # # wait a little bit before turning on another lamp
+  # - delay: '00:00:{{ (range(1, 5) | random) }}'  
+  # # generate an event to call again this automation rule
+  # - event: event_simulate_presence
+
+    - service: persistent_notification.create
+      data:
+        message: lightspresence called !
+

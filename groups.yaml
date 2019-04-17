@@ -2,22 +2,42 @@
 # Views ...
 #
 
-test:
-  name: Test Blade
+presim:
+  name: Presence Simulation
   view: yes
   entities:
-    - group.testsensors
-
+    - group.pressensors
+    - group.people
+    - input_select.presenceenabled
+    - script.lightspresence
 
 
 #
 # Groups ...
 #
 
-testsensors:
-  name: Test Sensors and Automation on WSL 
+pressensors:
+  name: Presence Sensors
   entities:
     - automation.simulate_presence
-    - light.ficus
+    - group.lightspresence
     - sun.sun
+
+# lights for presence simulation 
+lightspresence:
+  name: Lights for Presence simulation 
+  entities:
+    - light.ficus
+    - light.table
+
+# People for presence detection 
+# this is already defined in PI !!
+
+people:
+  name: Leitln 4 presence detection 
+  entities:
+    - device_tracker.rai_ph
+    - device_tracker.lis_ph
+
+
     
