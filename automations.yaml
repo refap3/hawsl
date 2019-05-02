@@ -10,10 +10,9 @@
 # ie. after 22:00 ...
 
 # this is the version with a time pattern ...
-# looks OK but on PI use platform time_pattern !???!?!?!
 - alias: Simulate presence
   trigger:
-    - platform: time
+    - platform: time_pattern
       # minutes: '/1'
       seconds: '/10'
   condition:  
