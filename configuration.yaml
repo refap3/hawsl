@@ -197,3 +197,10 @@ python_script:
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
+
+
+# check counter
+counter:
+  pres_counter:
+    initial: 0
+    step: 1

@@ -24,14 +24,32 @@
       - condition: state
         entity_id: 'group.people'
         state: 'not_home'
+      - condition: time
+        before: '23:01:00'
       - condition: state
         entity_id: 'input_select.presenceenabled'
         state: 'True'
-      - condition: time
-        before: '23:01:00'
+      - condition: numeric_state
+        entity_id: counter.pres_counter
+        above: 2 # need some value here !
+      - condition: numeric_state
+        entity_id: counter.pres_counter
+        below: 5 # need some value here !
   action:
   - service: script.turn_on
     entity_id: script.lightspresence
+
+# increment counter every x seconds ...
+
+- alias: inc counter
+  trigger:
+    - platform: time_pattern
+      # minutes: '/1'
+      seconds: '/10'
+  action:
+  - service: counter.increment
+    entity_id:  counter.pres_counter
+
 
 
 #    _____ _______ _____                _                        _   _

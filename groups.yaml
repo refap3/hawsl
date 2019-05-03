@@ -22,6 +22,7 @@ pressensors:
     - automation.simulate_presence
     - group.lightspresence
     - sun.sun
+    - counter.pres_counter
 
 # lights for presence simulation 
 lightspresence:
