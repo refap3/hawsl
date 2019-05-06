@@ -95,6 +95,25 @@ logbook:
 # Enables a map showing the location of tracked devices
 map:
 sensor:
+
+- platform: template
+  sensors:
+    vz_light_daytime:
+      friendly_name: 'VZ light daytime '
+      value_template: >-
+        {% set o = 'day' %}
+        {% if (states.sun.sun.attributes.elevation | int < 4 )   %}
+          {% if ( states('sensor.time') >= '14:30' and states('sensor.time') < '22:30' ) %}
+            {% set o = 'evening' %}
+          {% elif ( states('sensor.time') >= '06:30' and states('sensor.time') < '09:30' ) %}
+            {% set o = 'morning' %}
+          {% else %}
+            {% set o = 'night' %}
+          {% endif %}
+        {% endif %}
+            {{ o }}    
+
+
 # HUE dimmer button and last changed 
 - platform: rest 
   resource: http://192.168.1.29/api/afuqJ7LmBQWbHTQ0qKtGvuokd3y77SiJNw0BNkMy/sensors/7
@@ -189,6 +208,14 @@ input_select:
     initial: true
     icon: mdi:human-male-female        
 
+input_number:
+  pres_counter:
+    name: Presence counter emulation 
+    initial: 0
+    min: 0
+    max: 5
+    icon: "mdi:brightness-5"    
+
 ## enable python scripts in folder python_scripts
 python_script:
 
@@ -199,8 +226,3 @@ automation: !include automations.yaml
 script: !include scripts.yaml
 
 
-# check counter
-counter:
-  pres_counter:
-    initial: 0
-    step: 1

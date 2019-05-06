@@ -20,16 +20,21 @@ pressensors:
   name: Presence Sensors
   entities:
     - automation.simulate_presence
-    - group.lightspresence
+    - group.lightspresence1
+    - group.lightspresence2
     - sun.sun
     - counter.pres_counter
 
 # lights for presence simulation 
-lightspresence:
-  name: Lights for Presence simulation 
+lightspresence1:
+  name: Lights for Presence simulation1
+  entities:
+    - light.table
+
+lightspresence2:
+  name: Lights for Presence simulation2
   entities:
     - light.ficus
-    - light.table
 
 # People for presence detection 
 # this is already defined in PI !!
