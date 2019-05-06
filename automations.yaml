@@ -19,20 +19,8 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: sensor.vz_light_daytime
-        state: 'evening'
-      - condition: state
-        entity_id: 'group.people'
+        entity_id: sensor.presence
         state: 'not_home'
-      - condition: state
-        entity_id: 'input_select.presenceenabled'
-        state: 'True'
-      - condition: numeric_state
-        entity_id:  input_number.pres_counter # must change this to counter.pres_counter !!
-        above: 0 # need some value here !
-      - condition: numeric_state
-        entity_id:  input_number.pres_counter # must change this to counter.pres_counter !!
-        below: 2 # need some value here !
   action:
   - service: script.turn_on
     entity_id: script.lightspresence
@@ -47,23 +35,13 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: sensor.vz_light_daytime
-        state: 'day'
-      - condition: state
-        entity_id: 'group.people'
-        state: 'home'
-      - condition: state
-        entity_id: 'input_select.presenceenabled'
-        state: 'True'
-      - condition: numeric_state
-        entity_id:  input_number.pres_counter # must change this to counter.pres_counter !!
-        above: 0 # need some value here !
-      - condition: numeric_state
-        entity_id:  input_number.pres_counter # must change this to counter.pres_counter !!
-        below: 2 # need some value here !
+        entity_id: sensor.presence2
+        state: 'not_home'
   action:
   - service: script.turn_on
     entity_id: script.lightspresence
+
+
 
 
 #    _____ _______ _____                _                        _   _

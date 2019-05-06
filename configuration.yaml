@@ -113,6 +113,39 @@ sensor:
         {% endif %}
             {{ o }}    
 
+- platform: template
+  sensors:
+    presence:
+      friendly_name: 'Presence Sensor'
+      value_template: >-
+        {% set o = 'home' %}
+        {% if states('input_select.forcepresencesimulation')  == 'True' %}
+          {% set o = 'not_home' %}
+        {% else %}
+          {% if ( (states('input_number.pres_counter') | int == 1 ) and (states('sensor.vz_light_daytime') == 'evening' )  ) %}
+            {% if ( (states('group.people')  == 'not_home' ) and (states('input_select.presenceenabled') == 'True' )  ) %}
+              {% set o = 'not_home' %}
+            {% endif %}
+          {% endif %}
+        {% endif %}
+        {{ o }}    
+
+- platform: template
+  sensors:
+    presence2:
+      friendly_name: 'Presence Sensor2'
+      value_template: >-
+        {% set o = 'home' %}
+        {% if states('input_select.forcepresencesimulation')  == 'True' %}
+          {% set o = 'not_home' %}
+        {% else %}
+          {% if ( (states('input_number.pres_counter') | int == 1 ) and (states('sensor.vz_light_daytime') == 'day' )  ) %}
+            {% if ( (states('group.people')  == 'home' ) and (states('input_select.presenceenabled') == 'True' )  ) %}
+              {% set o = 'not_home' %}
+            {% endif %}
+          {% endif %}
+        {% endif %}
+        {{ o }}    
 
 # HUE dimmer button and last changed 
 - platform: rest 
@@ -206,6 +239,14 @@ input_select:
      - true
      - false
     initial: true
+    icon: mdi:human-male-female        
+
+  forcepresencesimulation:
+    name: FORCE Presence simulation
+    options:
+     - true
+     - false
+    initial: false
     icon: mdi:human-male-female        
 
 input_number:
