@@ -1,26 +1,36 @@
-# RANDOM: note-- must use max +1 for RANGE !!
 lightspresence:
   sequence:
+    - service: counter.increment
+      entity_id: 
+      - counter.pres_simul_exec_counter
     - service: light.turn_on
       data_template:
         entity_id: >
           group.lightspresence{{ (range(1, 3) | random) }} 
-#          group.lightspresence2
-  # wait some seconds (will be in reality in minutes)
     - delay: '00:00:{{ (range(1, 10) | random) }}'
-    # - delay: '00:{{ (range(2, 10) | random) }}:00'
-  # turn off all devices
+# execute only  if triggering condition is still TRUE ie. we are NOT_HOME
+
+    - service: persistent_notification.create
+      data:
+        message: BEFORE condition 
+
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: sensor.presence
+        state: 'not_home'
+
+    - service: persistent_notification.create
+      data:
+        message: AFTER condition 
+
     - service: light.turn_off
       entity_id: 
       - group.lightspresence1
       - group.lightspresence2
-  # # wait a little bit before turning on another lamp
     - delay: '00:00:{{ (range(1, 10) | random) }}'
-    # - delay: '00:{{ (range(2, 10) | random) }}:00'
 
-    # - service: persistent_notification.create
-    #   data:
-    #     message: lightspresence called !
+
 
 test_pb:
   sequence:

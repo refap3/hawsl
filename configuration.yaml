@@ -273,6 +273,11 @@ notify:
   name: pushbullet
   api_key: !secret pushbullet_api
 
+counter:
+  pres_simul_exec_counter:
+    initial: 0
+    step: 1
+    name: Number of Presence Simulations executed
 
 ## enable python scripts in folder python_scripts
 python_script:
