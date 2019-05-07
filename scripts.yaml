@@ -22,3 +22,9 @@ lightspresence:
     #   data:
     #     message: lightspresence called !
 
+test_pb:
+  sequence:
+    - service:  notify.pushbullet
+      data_template:
+        title: "HELLO TRITLE from a trootl"
+        message: "Fan is running: {{ states('sensor.vz_light_daytime')}}"

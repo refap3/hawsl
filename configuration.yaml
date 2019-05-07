@@ -255,7 +255,15 @@ input_number:
     initial: 0
     min: 0
     max: 5
-    icon: "mdi:brightness-5"    
+    icon: "mdi:brightness-5"   
+
+# pushbullet
+
+notify:
+  platform: pushbullet
+  name: pushbullet
+  api_key: !secret pushbullet_api
+
 
 ## enable python scripts in folder python_scripts
 python_script:
