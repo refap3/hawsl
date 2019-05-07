@@ -217,6 +217,15 @@ sensor:
       friendly_name: 'milliseconds'
       value_template: '{{ states.sensor.json_time.attributes["milliseconds_since_epoch"] }}'
 
+- platform: time_date
+  display_options:
+    - 'time'
+    - 'date'
+    - 'date_time'
+    - 'date_time_iso'
+    - 'time_date'
+    - 'time_utc'
+    - 'beat'
 
 # give SUN
 sun:

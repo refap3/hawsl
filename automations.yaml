@@ -41,6 +41,18 @@
   - service: script.turn_on
     entity_id: script.lightspresence
 
+# send notification if presence simulation triggers 
+- alias: Notify Presence Simulation 
+  trigger: 
+    platform: state
+    entity_id:  sensor.presence
+  action: 
+  - service: notify.pushbullet
+    data_template:
+      title: "Message from PRESENCE SIMULATION"
+      message: "New state is: {{ states('sensor.presence') }} at {{ states('sensor.date_time')}}"
+
+    
 
 
 
