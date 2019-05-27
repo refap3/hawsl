@@ -289,3 +289,120 @@ automation: !include automations.yaml
 script: !include scripts.yaml
 
 
+light:
+  - platform: osramlightify
+    host: 192.168.1.16    
+switch:
+  - platform: wake_on_lan
+    name: DSS
+    mac_address: "D0:50:99:2F:69:46"      
+    host: 192.168.1.31
+    turn_off:
+      service: shell_command.turn_off_dss
+  - platform: wake_on_lan
+    name: SS
+    mac_address: "BC:AE:C5:57:2C:13"      
+    host: 192.168.1.48
+    turn_off:
+      service: shell_command.turn_off_ss
+  - platform: wake_on_lan             #  dunno if this focca WOLs !
+    name: AI
+    mac_address: "00:15:17:D4:8B:BA"      
+    host: 192.168.1.44
+    turn_off:
+      service: shell_command.turn_off_ai
+
+  - platform: wake_on_lan             #  dunno if this focca WOLs !
+    name: A10
+    mac_address: "30:9C:23:84:CD:3D"      
+    host: 192.168.1.30
+    turn_off:
+      service: shell_command.turn_off_a10
+
+
+  - platform: wake_on_lan             
+    name: BU
+    mac_address: "94:18:82:37:27:0C"      
+    host: 192.168.1.41
+    turn_off:
+      service: shell_command.turn_off_bu
+
+#  RoonEP does not support WOL -- is eh wurscht!
+
+  - platform: wake_on_lan             
+    name: ROCK
+    mac_address: "94:C6:91:A8:78:D8"      
+    host: 192.168.1.63
+    turn_off:
+      service: shell_command.turn_off_rock
+
+  - platform: wake_on_lan             
+    name: RoonEPnoWOL
+    mac_address: "b8:27:eb:24:76:3b"      
+    host: 192.168.1.79
+    turn_off:
+      service: shell_command.turn_off_roonep
+
+
+# next sequence turns off real switch after shutdown too !
+
+# migrate this to A10 too !!
+  - platform: template
+    switches:
+      aiemulated:
+        friendly_name: "AIemulatedSWITCH"
+        value_template: "{{ states.switch.AI.state }}"
+        turn_on:
+          - service: light.turn_off
+            data:
+              entity_id: light.plug_02
+          - delay: 00:00:05
+          - service: light.turn_on
+            data:
+              entity_id: light.plug_02
+        turn_off:
+          - service: switch.turn_off
+            data:
+              entity_id: switch.AI
+          - wait_template:  '{{ states.switch.AI.state == ''off'' }}'
+            timeout: 00:01:00
+          - delay: 00:00:10
+          - service: light.turn_off
+            data:
+              entity_id: light.plug_02                    
+      a10emulated:
+        friendly_name: "A10emulatedSWITCH"
+        value_template: "{{ states.switch.A10.state }}" 
+        turn_on:
+          - service: light.turn_off
+            data:
+              entity_id: light.plug_03
+          - delay: 00:00:05
+          - service: light.turn_on
+            data:
+              entity_id: light.plug_03
+        turn_off:
+          - service: switch.turn_off
+            data:
+              entity_id: switch.A10
+          - wait_template:  '{{ states.switch.A10.state == ''off'' }}'
+            timeout: 00:01:00
+          - delay: 00:00:10
+          - service: light.turn_off
+            data:
+              entity_id: light.plug_03         
+
+
+# bloody wol does not work on A10 -- dunno Y
+shell_command:
+  # shutdown_z800: 'curl -k http://192.168.1.59:7760/forcepoweroff'
+  # restart_z800: 'curl -k  http://192.168.1.59:7760/reboot'
+  # lock_z800: 'curl -k  http://192.168.1.59:7760/lock'
+#  turn_off_dss: 'curl -k  http://192.168.1.31:7760/forcepoweroff'
+  turn_off_dss: 'curl -k  "http://wol.ssb8.local/wol/tasker.aspx?id=5&op=shut"'
+  turn_off_ss: 'curl -k   "http://wol.ssb8.local/wol/tasker.aspx?id=22&op=shut"'
+  turn_off_ai: 'curl -k   "http://wol.ssb8.local/wol/tasker.aspx?id=25&op=shut"'
+  turn_off_bu:  'curl -k   "http://wol.ssb8.local/wol/tasker.aspx?id=24&op=shut"'
+  turn_off_a10: 'curl -k   http://a10.ssb8.local:7760/forcepoweroff'
+  turn_off_roonep: "ssh -i /config/ssh/id_rsa -o StrictHostKeyChecking=no root@192.168.1.79 'shutdown -h now'"
+  turn_off_rock: 'curl -k  http://192.168.1.63/1/poweroff' # got this from internet 
